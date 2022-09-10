@@ -8,17 +8,28 @@ import { Observable, throwError } from 'rxjs';
 })
 export class AeronaveService {
 
-  readonly url = 'http://localhost:8080/aeronaves';
+  readonly url = '/api/aeronaves/';
 
   constructor(private httpClient: HttpClient) { }
 
   listaAerovaves(): Observable<AeronaveDTO[]> {
-    return this.httpClient.get<AeronaveDTO[]>('/api/aeronaves');
+    return this.httpClient.get<AeronaveDTO[]>(this.url);
   }
 
   excluir(id: number): Observable<any> {
-    return this.httpClient.delete<any>('/api/aeronaves/' + id);
+    return this.httpClient.delete<any>(this.url + id);
   }
 
+  salvar(aeronaveDTO: AeronaveDTO): Observable<AeronaveDTO> {
+    return this.httpClient.post<any>(this.url, aeronaveDTO);
+  }
+
+  atualizar(aeronaveDTO: AeronaveDTO): Observable<AeronaveDTO> {
+    return this.httpClient.put<AeronaveDTO>(this.url + aeronaveDTO.id, aeronaveDTO);
+  }
+
+  retornaQuatidadeNaoVendida(): Observable<number> {
+    return this.httpClient.get<number>(this.url + 'nao-vendida');
+  }
 
 }

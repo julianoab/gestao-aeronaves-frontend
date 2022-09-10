@@ -1,45 +1,47 @@
-<div>
+<div class="container">
     <h1>Gestão de Aeronaves</h1>
-    <h1>{{ nome }}</h1>
-
+<form [formGroup]="aeronaveForm">
   <table>
     <tr>
       <td>
         <mat-form-field class="example-form-field" appearance="fill">
           <mat-label>Nome</mat-label>
-          <input matInput type="text">
+          <input matInput type="text" formControlName="nome">
         </mat-form-field>
       </td>
       <td>
         <mat-form-field class="example-form-field" appearance="fill">
           <mat-label>Fabricante</mat-label>
-          <input matInput type="text">
+          <input matInput type="text" formControlName="fabricante">
         </mat-form-field>
       </td>
       <td>
         <mat-form-field class="example-form-field" appearance="fill">
           <mat-label>Ano</mat-label>
-          <input matInput type="text">
+          <input matInput type="number" formControlName="ano" pattern="[0-9]" maxlength="4">
         </mat-form-field>
       </td>
       <td>
         <mat-form-field class="example-form-field" appearance="fill">
           <mat-label>Descrição</mat-label>
-          <input matInput type="text">
+          <input matInput type="text" formControlName="descricao">
         </mat-form-field>
       </td>
       <td>
         <mat-form-field class="example-form-field" appearance="fill">
           <mat-label>Status</mat-label>
-          <select matNativeControl required>
-            <option value="true">Vendido</option>
-            <option value="false">Não vendido</option>
+          <select matNativeControl required formControlName="vendido">
+            <option value="true">vendido</option>
+            <option value="false">disponível</option>
           </select>
         </mat-form-field>
       </td>
-
-      
     </tr>
+
+    <button mat-fab color="primary" (click)="salvar()">
+      <mat-icon>save</mat-icon>
+    </button>
+  
   </table>    
 
 
@@ -72,14 +74,14 @@
   
       <ng-container matColumnDef="vendido">
         <th mat-header-cell *matHeaderCellDef>Vendido</th>
-        <td mat-cell *matCellDef="let element"> {{element.vendido}} </td>
+        <td mat-cell *matCellDef="let element"> {{ formataSituacao(element.vendido)}} </td>
       </ng-container>
 
       <ng-container matColumnDef="acoes">
         <th mat-header-cell *matHeaderCellDef>Ações</th>
         <td mat-cell *matCellDef="let element"> 
 
-          <button mat-fab color="primary" style="margin-right: 20px;">
+          <button mat-fab color="primary" style="margin-right: 20px;" (click)="editar(element)">
             <mat-icon>edit</mat-icon>
           </button>
           
@@ -94,8 +96,8 @@
       <tr mat-row *matRowDef="let request; columns: columnsToDisplay"></tr>
   
     </table>
-  
+  </form>
 
-
+  <h3>Quantide de Aeronaves não vendidas: {{ quantideNaoVendida }}</h3>
 
 </div>
