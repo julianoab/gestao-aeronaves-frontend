@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AeronaveDTO } from '../models/aeronave-dto';
 import { Observable, throwError } from 'rxjs';
+import { AeronaveQtdeCadastraPorFabricante } from '../models/aeronave-qtde-cadastrada-por-fabricante-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,10 @@ export class AeronaveService {
 
   retornaQuatidadeNaoVendida(): Observable<number> {
     return this.httpClient.get<number>(this.url + 'nao-vendida');
+  }
+
+  retornaQuatidadeCadastradaPorFabricante(): Observable<any> {
+    return this.httpClient.get<any>(this.url + 'quantidade-cadastrada-fabricante');
   }
 
 }

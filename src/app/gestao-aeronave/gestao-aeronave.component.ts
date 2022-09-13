@@ -3,6 +3,7 @@ import { AeronaveService } from '../services/aeronave.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { AeronaveDTO } from '../models/aeronave-dto';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { AeronaveQtdeCadastraPorFabricante } from '../models/aeronave-qtde-cadastrada-por-fabricante-dto';
 
 @Component({
   selector: 'app-gestao-aeronave',
@@ -13,11 +14,23 @@ export class GestaoAeronaveComponent implements OnInit {
 
   aeronaveForm!: FormGroup;
   quantideNaoVendida: number = 0;
+  quantidadeCadastradaPorFabricante: AeronaveQtdeCadastraPorFabricante[] = [];
 
   dataSource = new MatTableDataSource<AeronaveDTO>;
   columnsToDisplay = ['id', 'nome', 'fabricante', 'ano', 'descricao', 'vendido', 'acoes'];
 
+  dataSourceFabricante = new MatTableDataSource<AeronaveQtdeCadastraPorFabricante>;
+  columnsFabricanteToDisplay = ['fabricante', 'quantidadeCadastrada'];
+
   ngOnInit() {
+    this.carregaFormInicial();
+    this.carregarInformacoesTela();
+  }
+
+  constructor(private aeronaveService: AeronaveService,
+    private fb: FormBuilder) { }
+
+  carregaFormInicial(): void {
     this.aeronaveForm = this.fb.group({
       id:[''],
       nome: [''],
@@ -25,20 +38,15 @@ export class GestaoAeronaveComponent implements OnInit {
       ano: [''],
       descricao: [''],
       vendido: [''],
-    }) 
-    this.carregarTabela();
+    }) ;
   }
 
-  constructor(private aeronaveService: AeronaveService,
-    private fb: FormBuilder) { }
-
-  carregarTabela() {
+  carregarInformacoesTela() {
     this.aeronaveService.listaAerovaves().subscribe(aerovaves => {
       this.dataSource.data = aerovaves;
-      // aerovaves.filter( aerovaves => {
-      // })
     })
     this.carregaQuantidadeNaoVendida();
+    this.retornaQuantidadeCadastradaPorFabricante();
   }
 
   excluir(aeronave: AeronaveDTO): void {
@@ -84,7 +92,7 @@ export class GestaoAeronaveComponent implements OnInit {
   }
 
   atualizarTabela() {
-    this.carregarTabela();
+    this.carregarInformacoesTela();
     this.dataSource._updateChangeSubscription;
   }
 
@@ -97,5 +105,12 @@ export class GestaoAeronaveComponent implements OnInit {
       this.quantideNaoVendida = quantidade;
     });
   }
+
+  retornaQuantidadeCadastradaPorFabricante() {
+    this.aeronaveService.retornaQuatidadeCadastradaPorFabricante().subscribe(resultado => {
+      this.dataSourceFabricante.data = resultado;
+    });
+  }
+  
 }
 
