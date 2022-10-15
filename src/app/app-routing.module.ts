@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { GestaoAeronaveComponent } from './gestao-aeronave/gestao-aeronave.component';
+import { GestaoFibonacciComponent } from './gestao-fibonacci/gestao-fibonacci.component';
 
 const routes: Routes = [];
 
 @NgModule({
   imports: [RouterModule.forRoot([ {
-    path: 'gestao-aeronave', component: GestaoAeronaveComponent}])],
+    path: 'gestao-fibonacci', component: GestaoFibonacciComponent}])],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

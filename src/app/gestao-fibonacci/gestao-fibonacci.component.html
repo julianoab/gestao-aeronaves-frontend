@@ -1,0 +1,32 @@
+<div class="container">
+  <h1>Gerador sequência fibonacci</h1>
+  <form [formGroup]="fibonacciForm">
+
+    <table>
+      <tr>
+        <td>
+          <mat-form-field class="example-form-field" appearance="fill">
+            <mat-label>Número</mat-label>
+            <input matInput type="number" formControlName="numero">
+          </mat-form-field>
+          <button style="margin-left: 24px;" mat-fab color="primary" (click)="gerar()" [disabled]="!fibonacciForm.valid">
+            Gerar
+          </button>
+        </td>
+      </tr>
+    </table>
+
+    <table mat-table matSort [dataSource]="dataSource">
+
+      <ng-container matColumnDef="sequencia">
+        <th mat-header-cell *matHeaderCellDef>Sequência</th>
+        <td mat-cell *matCellDef="let element"> {{ element }} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+    </table>
+ 
+  </form>
+
+</div>
